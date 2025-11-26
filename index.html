@@ -1,0 +1,210 @@
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Remote Sensing for Plant Diversity Prediction (R)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      background: #f5f5f7;
+      color: #222;
+    }
+    header {
+      background: #184e77;
+      color: #fff;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0 0 0.5rem;
+      font-size: 1.9rem;
+    }
+    header p {
+      margin: 0;
+      opacity: 0.9;
+    }
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+    section {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 1.3rem;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 0.3rem;
+    }
+    ul {
+      padding-left: 1.2rem;
+    }
+    .tag {
+      display: inline-block;
+      background: #d8f3dc;
+      color: #1b4332;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      margin-right: 0.3rem;
+      margin-bottom: 0.3rem;
+    }
+    .week {
+      margin-bottom: 0.5rem;
+    }
+    .footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #666;
+      padding: 1rem;
+    }
+    a {
+      color: #1d75cf;
+    }
+    code {
+      background: #f1f3f5;
+      padding: 0.1rem 0.2rem;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Remote Sensing for Plant Diversity Prediction (R)</h1>
+    <p>Hands-on module · Part of the Advanced Remote Sensing course</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Overview</h2>
+      <p>
+        This hands-on course introduces students to remote sensing workflows for
+        <strong>predicting plant diversity in R</strong>. We will connect field-based plant diversity metrics
+        with multispectral satellite data, build predictive models, and communicate results using reproducible R scripts.
+      </p>
+      <p>
+        This topic is designed as the final chapter of the
+        <a href="https://eol.pages.cms.hu-berlin.de/geo_advrs/syllabus.html" target="_blank">
+          Advanced Remote Sensing course
+        </a>.
+      </p>
+      <p>
+        <span class="tag">R</span>
+        <span class="tag">Remote sensing</span>
+        <span class="tag">Plant diversity</span>
+        <span class="tag">Machine learning</span>
+        <span class="tag">Geospatial analysis</span>
+      </p>
+    </section>
+
+    <section>
+      <h2>Audience & Prerequisites</h2>
+      <h3>Audience</h3>
+      <ul>
+        <li>Bachelor students with interest in ecology, geography, or geoinformatics.</li>
+      </ul>
+      <h3>Prerequisites</h3>
+      <ul>
+        <li>Working knowledge of R (data wrangling, basic plotting).</li>
+        <li>Basic GIS concepts and coordinate reference systems (CRS).</li>
+        <li>R (≥ 4.2) with packages: <code>terra</code>, <code>sf</code>, <code>tidyverse</code>, <code>caret</code> (or <code>tidymodels</code>), <code>rasterdiv</code>.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Learning Outcomes</h2>
+      <ul>
+        <li>Compute plant diversity metrics (richness, Shannon, Simpson, Hill numbers) in R.</li>
+        <li>Acquire and preprocess multispectral satellite imagery for vegetation studies.</li>
+        <li>Derive spectral indices (NDVI, EVI), spectral diversity, and texture metrics.</li>
+        <li>Build species richness models by linking field plots and raster predictors.</li>
+        <li>Evaluate models with cross-validation and spatial blocking.</li>
+        <li>Produce prediction maps, quantify uncertainty, and communicate results.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Schedule (3 weeks · 2 hours per week)</h2>
+
+      <div class="week">
+        <h3>Week 1 – Species Diversity & Preprocessing</h3>
+        <ul>
+          <li>Course orientation and data overview.</li>
+          <li>Calculating species diversity metrics in R.</li>
+          <li>Computing spectral indices (NDVI, EVI) and basic raster statistics.</li>
+          <li><strong>Lab:</strong> Reproducible preprocessing script for the study area.</li>
+        </ul>
+      </div>
+
+      <div class="week">
+        <h3>Week 2 – Feature Engineering & Model Design</h3>
+        <ul>
+          <li>Linking plot-based diversity data with raster predictors using <code>sf</code>.</li>
+          <li>Creating texture and landscape metrics.</li>
+          <li>Exploratory data analysis and collinearity checks.</li>
+          <li>Modelling species richness with <code>caret</code> / <code>tidymodels</code>.</li>
+          <li><strong>Lab:</strong> Baseline models and (spatial) cross-validation.</li>
+        </ul>
+      </div>
+
+      <div class="week">
+        <h3>Week 3 – Assessment, Mapping & Communication</h3>
+        <ul>
+          <li>Model diagnostics: variable importance, partial dependence.</li>
+          <li>Uncertainty and spatial residual analysis.</li>
+          <li>Generating and exporting prediction maps.</li>
+          <li><strong>Capstone:</strong> End-to-end workflow with provided datasets.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Materials</h2>
+      <ul>
+        <li>Lecture slides (PDF / PPTX).</li>
+        <li>R scripts and RMarkdown lab notebooks.</li>
+        <li>Example datasets (field plots, species counts, satellite imagery).</li>
+      </ul>
+      <p>
+        All materials will be available in the course GitHub repository:
+        <em>(add the repository URL here)</em>.
+      </p>
+    </section>
+
+    <section>
+      <h2>Logistics</h2>
+      <ul>
+        <li>Format: In-person workshop with guided labs.</li>
+        <li>Duration: 3 weeks (2 hours per week) or intensive 3-day format.</li>
+        <li>Software: RStudio; QGIS optional for visual validation.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <p>
+        Instructor: <em>(Xiang LIU)</em><br />
+        Email: <em>(xiang.liu@hu-berlin.de)</em>
+      </p>
+    </section>
+  </main>
+
+  <div class="footer">
+    © <span id="year"></span> Remote Sensing for Plant Diversity Prediction (R)
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

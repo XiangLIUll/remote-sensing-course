@@ -23,5 +23,6 @@ install.packages(c(
   "sf",
   "tidyverse",
   "caret",      # or tidymodels if preferred
-  "rasterdiv"
+  "rasterdiv", 
+  "vegan"
 ))
