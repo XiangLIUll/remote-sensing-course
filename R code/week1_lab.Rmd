@@ -1,0 +1,128 @@
+---
+title: "Week 1 Lab — Species Diversity & Remote Sensing Preprocessing"
+subtitle: "Remote Sensing for Plant Diversity Prediction (R)"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+---
+
+# Introduction
+
+Welcome to **Week 1** of the module *Remote Sensing for Plant Diversity Prediction (R)*.
+
+This week you will learn:
+
+- Species diversity metrics  
+- Richness, Shannon, Simpson, and Hill numbers in R  
+- Loading Sentinel-2 (or Landsat) data  
+- NDVI, EVI and texture metrics  
+- Linking plot data with raster predictors  
+
+---
+
+# 1. Setup
+
+```r
+packages <- c("tidyverse", "vegan", "terra", "sf", "rasterdiv")
+install.packages(setdiff(packages, installed.packages()[,1]))
+
+library(tidyverse)
+library(vegan)
+library(terra)
+library(sf)
+library(rasterdiv)
+```
+
+---
+
+# 2. Load Species Data
+
+```r
+species <- read_csv("data/species_counts.csv")
+species
+```
+
+---
+
+# 3. Calculate Diversity Metrics
+
+```r
+species_mat <- species %>%
+  column_to_rownames("plot_id") %>%
+  as.matrix()
+
+richness <- specnumber(species_mat)
+shannon  <- diversity(species_mat, index = "shannon")
+simpson  <- diversity(species_mat, index = "simpson")
+
+hill_q0 <- richness
+hill_q1 <- exp(shannon)
+hill_q2 <- 1 / (1 - simpson)
+
+div_df <- tibble(
+  plot_id = rownames(species_mat),
+  richness = richness,
+  shannon = shannon,
+  simpson = simpson,
+  hill_q0 = hill_q0,
+  hill_q1 = hill_q1,
+  hill_q2 = hill_q2
+)
+
+div_df
+```
+
+---
+
+# 4. Visualize Metrics
+
+```r
+ggplot(div_df, aes(plot_id, richness)) +
+  geom_col(fill = "forestgreen") +
+  theme_minimal()
+```
+
+---
+
+# 5. Load Satellite Data
+
+```r
+s2 <- rast("data/predictors_stack.tif")
+s2
+```
+
+---
+
+# 6. NDVI & Texture
+
+```r
+ndvi <- (s2$B08 - s2$B04) / (s2$B08 + s2$B04)
+ndvi_sd <- focal(ndvi, w = 3, fun = sd, na.policy = "omit")
+```
+
+---
+
+# 7. Linking Plots & Predictors
+
+```r
+plots <- st_read("data/field_plots.gpkg")
+plots <- st_transform(plots, crs(s2))
+
+plots$ndvi <- extract(ndvi, vect(plots))[, 2]
+plots$ndvi_sd <- extract(ndvi_sd, vect(plots))[, 2]
+
+joined <- div_df %>%
+  left_join(st_drop_geometry(plots), by = "plot_id")
+
+head(joined)
+```
+
+---
+
+# 8. Exercises
+
+1. Compute Hill numbers for q = 0.5 and q = 3  
+2. Compute SAVI, CIgreen, MSAVI  
+3. Try focal windows 5×5 and 7×7  
